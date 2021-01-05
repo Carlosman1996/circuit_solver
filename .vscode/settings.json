@@ -1,0 +1,14 @@
+{
+    "python.linting.flake8Args": [
+        "--ignore=E501, F401, N801, N802, N806, N803, D, E402, F541",
+    ],
+    "python.testing.pytestArgs": [
+        "."
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.enabled": true
+}
