@@ -13,7 +13,7 @@ class Methods:
     initial_condition: float
 
     def __post_init__(self) -> None:
-        self.interval = 1 / self.steps
+        self.interval = (self.stop_time - self.start_time) / self.steps
         self.number_points = self.steps + 1
         self.points = np.linspace(start=self.start_time,
                                   stop=self.stop_time, num=self.number_points)
@@ -67,26 +67,17 @@ class Methods:
         plt.show()
 
 
-# def function(point, y):
-#     # Calculate current in a RL circuit
-#     resistance = 2
-#     frequency = 100000
-#     voltage = np.sin(2 * np.pi * frequency * point)
-#     inductance = 0.00005
-
-#     # Define the function
-#     func = (voltage - y * resistance) / inductance
-#     return func
-
-
 if __name__ == "__main__":
-    def function():
-        return lambda point, y: 2 * y - 2 * point - 1
+    def function(amplitude, resistance, frequency, inductance):
+        return lambda point, y: (amplitude * np.sin(2 * np.pi * frequency * point) - y * resistance) / inductance
 
-    methods = Methods(function=function(),
-                      steps=4,
-                      start_time=0,
-                      stop_time=1,
+    methods = Methods(function=function(amplitude=1,
+                                        resistance=2,
+                                        frequency=100000,
+                                        inductance=50e-6),
+                      steps=1000,
+                      start_time=0.0001,
+                      stop_time=0.0005,
                       initial_condition=2)
 
     results_dictionary = {}
