@@ -79,18 +79,6 @@ class Methods:
 
 
 if __name__ == "__main__":
-    # def equations_system(amplitude, resistance, frequency, inductance):
-    #     return lambda point, values: np.array([(amplitude * np.sin(2 * np.pi * frequency * point) - values[0] * resistance) / inductance])
-
-    # methods = Methods(equations_system=equations_system(amplitude=1,
-    #                                                     resistance=2,
-    #                                                     frequency=100000,
-    #                                                     inductance=50e-6),
-    #                   steps=1000,
-    #                   start_time=0.0001,
-    #                   stop_time=0.0005,
-    #                   initial_conditions=[2])
-
     def equations_system(amplitude, resistance, inductance, capacitance, radial_frequency):
         return lambda point, values: np.array([values[1], (amplitude * radial_frequency * np.cos(radial_frequency * point) - values[0] / capacitance - resistance * values[1]) / inductance])
 

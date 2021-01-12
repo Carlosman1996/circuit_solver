@@ -16,7 +16,22 @@ def methods_import_one_dimension():
 
 
 @pytest.fixture
-def methods_import_equations_system():
+def methods_import_RL_circuit():
+    def function(amplitude, resistance, frequency, inductance):
+        return lambda point, values: np.array([(amplitude * np.sin(2 * np.pi * frequency * point) - values[0] * resistance) / inductance])
+
+    return Methods(equations_system=function(amplitude=1,
+                                             resistance=2,
+                                             frequency=100000,
+                                             inductance=50e-6),
+                   steps=1000,
+                   start_time=0.0001,
+                   stop_time=0.0005,
+                   initial_conditions=[2])
+
+
+@pytest.fixture
+def methods_import_RLC_circuit():
     def equations_system(amplitude, resistance, inductance, capacitance, radial_frequency):
         return lambda point, values: np.array([values[1], (amplitude * radial_frequency * np.cos(radial_frequency * point) - values[0] / capacitance - resistance * values[1]) / inductance])
     return Methods(equations_system=equations_system(amplitude=5,
