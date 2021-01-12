@@ -3,15 +3,15 @@ import numpy as np
 
 
 def test_euler_method_one_dimension(methods_import_one_dimension):
-    assert methods_import_one_dimension.method_solver('Euler')[-1][0] == 7.0625
+    assert round(methods_import_one_dimension.method_solver('Euler')[-1][0], 4) == 7.0625
 
 
 def test_heun_method_one_dimension(methods_import_one_dimension):
-    assert methods_import_one_dimension.method_solver('Heun')[-1][0] == 8.9729
+    assert round(methods_import_one_dimension.method_solver('Heun')[-1][0], 4) == 8.9729
 
 
 def test_runge_kutta_method_one_dimension(methods_import_one_dimension):
-    assert methods_import_one_dimension.method_solver('Runge-Kutta')[-1][0] == 9.384
+    assert round(methods_import_one_dimension.method_solver('Runge-Kutta')[-1][0], 4) == 9.384
 
 
 def test_equations_system(methods_import_equations_system):

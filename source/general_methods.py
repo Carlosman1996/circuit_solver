@@ -23,8 +23,10 @@ class Methods:
         point_result = np.zeros(self.number_parameters)
 
         point_result[-1] = function_values[-1]
-        for index_value in range(self.number_parameters - 1, 0, -1):
-            point_result[index_value - 1] = values[index_value - 1] + self.interval * point_result[index_value]
+        for index_value in range(self.number_parameters, 0, -1):
+            point_result[index_value - 1] = values[index_value - 1] + self.interval * function_values[index_value - 1]
+            if index_value > 1:
+                function_values[index_value - 2] = point_result[index_value - 1]
         return point_result
 
     def euler_point_equation(self, point, values):
@@ -52,7 +54,7 @@ class Methods:
             if method == 'Euler':
                 result.append(self.euler_point_equation(point, result[-1]))
             elif method == 'Heun':
-                result.append(self.heun_point_equation(point, self.points[index_point], result[-1]))
+                result.append(self.heun_point_equation(point, self.points[index_point + 1], result[-1]))
             elif method == 'Runge-Kutta':
                 result.append(self.runge_kutta_point_equation(point, result[-1]))
             else:
@@ -78,30 +80,30 @@ class Methods:
 
 
 if __name__ == "__main__":
-    def equations_system(amplitude, resistance, frequency, inductance):
-        return lambda point, values: np.array([values[1], (amplitude * np.sin(2 * np.pi * frequency * point) - values[0] * resistance) / inductance])
+    # def equations_system(amplitude, resistance, frequency, inductance):
+    #     return lambda point, values: np.array([(amplitude * np.sin(2 * np.pi * frequency * point) - values[0] * resistance) / inductance])
 
-    methods = Methods(equations_system=equations_system(amplitude=1,
-                                                        resistance=2,
-                                                        frequency=100000,
-                                                        inductance=50e-6),
-                      steps=1000,
-                      start_time=0.0001,
-                      stop_time=0.0005,
-                      initial_conditions=[2, 0])
-
-    # def equations_system(amplitude, resistance, inductance, capacitance, radial_frequency):
-    #     return lambda point, values: np.array([values[1], values[2], (amplitude * radial_frequency * np.cos(radial_frequency * point) - values[0] / capacitance - resistance * values[1]) / inductance])
-
-    # methods = Methods(equations_system=equations_system(amplitude=5,
+    # methods = Methods(equations_system=equations_system(amplitude=1,
     #                                                     resistance=2,
-    #                                                     inductance=1,
-    #                                                     capacitance=1,
-    #                                                     radial_frequency=1),
+    #                                                     frequency=100000,
+    #                                                     inductance=50e-6),
     #                   steps=1000,
-    #                   start_time=0,
-    #                   stop_time=20,
-    #                   initial_conditions=[0, 100, 0])
+    #                   start_time=0.0001,
+    #                   stop_time=0.0005,
+    #                   initial_conditions=[2])
+
+    def equations_system(amplitude, resistance, inductance, capacitance, radial_frequency):
+        return lambda point, values: np.array([values[1], (amplitude * radial_frequency * np.cos(radial_frequency * point) - values[0] / capacitance - resistance * values[1]) / inductance])
+
+    methods = Methods(equations_system=equations_system(amplitude=5,
+                                                        resistance=2,
+                                                        inductance=1,
+                                                        capacitance=1,
+                                                        radial_frequency=1),
+                      steps=1000,
+                      start_time=0,
+                      stop_time=20,
+                      initial_conditions=[0, 100])
 
     results_dictionary = {}
 
