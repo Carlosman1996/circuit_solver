@@ -22,11 +22,10 @@ class Methods:
     def solve(self, values, function_values):
         point_result = np.zeros(self.number_parameters)
 
-        point_result[-1] = function_values[-1]
-        for index_value in range(self.number_parameters, 0, -1):
-            point_result[index_value - 1] = values[index_value - 1] + self.interval * function_values[index_value - 1]
+        for index_value in range((self.number_parameters - 1), -1, -1):
+            point_result[index_value] = values[index_value] + self.interval * function_values[index_value]
             if index_value > 1:
-                function_values[index_value - 2] = point_result[index_value - 1]
+                function_values[index_value - 1] = point_result[index_value]
         return point_result
 
     def euler_point_equation(self, point, values):
